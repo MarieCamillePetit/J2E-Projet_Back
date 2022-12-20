@@ -6,6 +6,7 @@ import java.sql.Date;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.univlittoral.projetback.entity.AuteursEntity;
 import com.univlittoral.projetback.enums.GenreEnum;
 
 
@@ -23,7 +24,7 @@ public class LivresDTO {
 	
 	private String lieuParution;
 	
-	private Integer auteur;
+	private AuteursEntity auteur;
 	
 	@Enumerated(EnumType.STRING)
 	private GenreEnum genre;
@@ -77,14 +78,6 @@ public class LivresDTO {
 	}
 
 
-	public Integer getAuteur() {
-		return auteur;
-	}
-
-	public void setAuteur(Integer auteur) {
-		this.auteur = auteur;
-	}
-
 	public GenreEnum getGenre() {
 		return genre;
 	}
@@ -92,6 +85,17 @@ public class LivresDTO {
 	public void setGenre(GenreEnum genre) {
 		this.genre = genre;
 	}
+
+	public AuteursEntity getAuteur() {
+		return auteur;
+	}
+
+	public void setAuteur(AuteursEntity auteur) {
+		this.auteur = auteur;
+	}
+
+
+	
 	
 	
 }

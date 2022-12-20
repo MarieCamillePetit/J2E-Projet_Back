@@ -18,4 +18,8 @@ public interface LivresRepository extends JpaRepository<LivresEntity, Integer>{
 	@Query(value="SELECT l FROM LivresEntity l where l.genre = :genre")
 	List<LivresEntity> findLivresByGenre(@Param("genre") final GenreEnum genre);
 	
+	//Récupère la liste de livres triée dans l'ordre alphabétique
+	@Query(value="SELECT * FROM livres order by nom ASC", nativeQuery=true)
+	public List<LivresEntity> findAllLivresRepo();
+	
 }

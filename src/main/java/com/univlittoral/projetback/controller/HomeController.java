@@ -25,6 +25,8 @@ import com.univlittoral.projetback.mapper.AuteurMapper;
 import com.univlittoral.projetback.mapper.LivreMapper;
 import com.univlittoral.projetback.service.LivresService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 
 @RestController //-> est utilisé pour marquer les classes en tant que contrôleur Spring.
 @RequestMapping(value = "/rest/bd/") //=> l’URL d’accès à votre controller.
@@ -34,6 +36,7 @@ public class HomeController {
     private LivresService service;
     
     @GetMapping(value ="/home")
+    @Operation(summary ="Affiche la page d’accueil de l’application, avec les indicateurs et les livres triés en ASC")
     public HomeDTO getHome(){
         HomeDTO home = new HomeDTO();
         
@@ -62,18 +65,21 @@ public class HomeController {
     
     //Retrouver un livre avec son id
     @GetMapping("/livres/{id}")
+    @Operation(summary ="Récupère le livre ayant comme clé primaire {id}")
     public LivresDTO findById(@PathVariable Integer id) {
         return LivreMapper.map(service.findLivreById(id));
     }
     
     //Supprimer un livre
     @DeleteMapping("/livres/{id}")
+    @Operation(summary ="Supprime le livre ayant comme clé primaire {id}")
     public void deleteById(@PathVariable int id) {
         service.deleteById(id);
     }
     
     //Ajout d'un livre
     @PostMapping("/livres")
+    @Operation(summary ="Insère le livre rempli via le formulaire en base.")
     public void save(@RequestBody LivresRequestDTO reqAddLivre) {
         LivresEntity livre = LivreMapper.addLivre(reqAddLivre);
         service.saveOrUpdateLivre(livre);
@@ -81,12 +87,14 @@ public class HomeController {
     
     //Modification d'un livre
     @PutMapping("/livres/{id}")
+    @Operation(summary ="Modifie le livre ayant comme clé primaire {id}")
     public void modif(@PathVariable Integer id, @RequestBody LivresRequestDTO reqModifLivre) {
         service.saveOrUpdateLivre(LivreMapper.modifLivre(reqModifLivre, service.findLivreById(id)));
     }
     
     //Trouver les livres du genre
     @GetMapping("livres")
+    @Operation(summary ="Récupère une liste de livres ayant comme genre {param}")
 	public List<LivresDTO> findByGenre(@RequestParam GenreEnum genre){
 		return LivreMapper.map(service.findByGenre(genre));
 	}
@@ -95,14 +103,17 @@ public class HomeController {
     
   //Retrouver un auteur avec son id
     @GetMapping("/auteurs/{id}")
+    @Operation(summary ="Récupère l’auteur ayant comme clé primaire {id}")
     public AuteursDTO findAuteurById(@PathVariable Integer id) {
         return AuteurMapper.map(service.findAuteurById(id));
     }
     
 	//Obtenir les auteurs
 	@GetMapping("/auteurs")
+	@Operation(summary ="Affiche une liste d’auteurs")
 	public List<AuteursDTO> findAllAuteurs(){
 		return AuteurMapper.map(service.findAllAuteurs());
 	}
+	
     
 }

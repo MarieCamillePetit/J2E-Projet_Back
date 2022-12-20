@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.univlittoral.projetback.enums.GenreEnum;
@@ -39,12 +41,14 @@ public class LivresEntity {
 	@Column(name="lieu_parution")
 	private String lieuParution;
 	
-	@Column(name="auteur")
-	private Integer auteur;
 	
 	@Column(name="genre")
 	@Enumerated(EnumType.STRING)
 	private GenreEnum genre;
+	
+	@ManyToOne()
+    @JoinColumn(name="auteur", referencedColumnName = "id")    
+    private AuteursEntity auteur;
 	
 
 	public Integer getId() {
@@ -97,20 +101,20 @@ public class LivresEntity {
 
 	
 
-	public Integer getAuteur() {
-		return auteur;
-	}
-
-	public void setAuteur(Integer auteur) {
-		this.auteur = auteur;
-	}
-
 	public GenreEnum getGenre() {
 		return genre;
 	}
 
 	public void setGenre(GenreEnum genre) {
 		this.genre = genre;
+	}
+
+	public AuteursEntity getAuteur() {
+		return auteur;
+	}
+
+	public void setAuteur(AuteursEntity auteur) {
+		this.auteur = auteur;
 	}
 
 

@@ -53,6 +53,7 @@ public class LivreMapper {
 	        livreAdd.setGenre(reqAddLivre.getGenre());
 	        livreAdd.setLieuParution(reqAddLivre.getLieuParution());
 	        livreAdd.setNbPages(reqAddLivre.getNbPages());
+	        livreAdd.setAuteur(reqAddLivre.getAuteur());
 
 	        return livreAdd;
 	    }
@@ -65,6 +66,7 @@ public class LivreMapper {
 	    	livreModif.setNom(reqModifLivre.getNom());
 	    	livreModif.setLieuParution(reqModifLivre.getLieuParution());
 	    	livreModif.setNbPages(reqModifLivre.getNbPages());
+	    	livreModif.setAuteur(reqModifLivre.getAuteur());
 	    	
 	        return livreModif;
 

@@ -21,7 +21,7 @@ public class LivresService {
 	
 	//Utilisation du service "findAll" pour obtenir les livres
 	public List<LivresEntity> findAllLivres(){
-		return repo.findAll();
+		return repo.findAllLivresRepo();
 	}
 	
 	//Utilisation du service "findAllAuteurs" pour obtenir les auteurs
