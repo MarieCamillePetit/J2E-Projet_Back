@@ -1,12 +1,14 @@
 package com.univlittoral.projetback.dto;
 
 import java.util.List;
+import java.util.Map;
 
 public class HomeDTO {
 	
 	private List<LivresDTO> livre;
 	private IndicateursDTO indicateurs;
-	//private PieChartDTO pieChart;
+    private Map<String,Integer> genres;
+	private PieChartDTO graphData;
 		    
 	    
 	    public List<LivresDTO> getLivres() {
@@ -28,12 +30,19 @@ public class HomeDTO {
 		public void setLivre(List<LivresDTO> livre) {
 			this.livre = livre;
 		}
-//		public PieChartDTO getPieChart() {
-//			return pieChart;
-//		}
-//		public void setPieChart(PieChartDTO pieChart) {
-//			this.pieChart = pieChart;
-//		}
+		public Map<String, Integer> getGenres() {
+			return genres;
+		}
+		public void setGenres(Map<String, Integer> genres) {
+			this.genres = genres;
+		}
+		
+		public PieChartDTO getGraphData() {
+			return graphData;
+		}
+		public void setGraphData(PieChartDTO graphData) {
+			this.graphData = graphData;
+		}
 	    
 	    
 

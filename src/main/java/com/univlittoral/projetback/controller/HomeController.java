@@ -1,7 +1,9 @@
 package com.univlittoral.projetback.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.univlittoral.projetback.dto.AuteursDTO;
+import com.univlittoral.projetback.dto.GenreDTO;
 import com.univlittoral.projetback.dto.HomeDTO;
 import com.univlittoral.projetback.dto.IndicateursDTO;
 import com.univlittoral.projetback.dto.LivresDTO;
 import com.univlittoral.projetback.dto.LivresRequestDTO;
+import com.univlittoral.projetback.entity.AuteursEntity;
 import com.univlittoral.projetback.entity.LivresEntity;
 import com.univlittoral.projetback.enums.GenreEnum;
 import com.univlittoral.projetback.mapper.AuteurMapper;
@@ -38,18 +42,20 @@ public class HomeController {
     @GetMapping(value ="/home")
     @Operation(summary ="Affiche la page d’accueil de l’application, avec les indicateurs et les livres triés en ASC")
     public HomeDTO getHome(){
+    	
         HomeDTO home = new HomeDTO();
-        
-        IndicateursDTO indicateur = new IndicateursDTO();
-        
-        home.setLivres(LivreMapper.map(service.findAllLivres()));        
+        final GenreDTO ListGenre = new GenreDTO();
+        final List<LivresEntity> entities = service.findAllLivres();
+        final int nbLivres = entities.size();
+        final ArrayList<String> genres = new ArrayList<String>();             
 
         List listeGenre = new ArrayList();
         
-        
+        //Indicateurs
+        IndicateursDTO indicateur = new IndicateursDTO();
         indicateur.setNbLivres(service.findAllLivres().size());
         indicateur.setNbAuteurs(service.findAllAuteurs().size());
-        
+       
         for(final LivresEntity entity : service.findAllLivres()) {
             if(!listeGenre.contains(entity.getGenre())) {
             	listeGenre.add(entity.getGenre());
@@ -58,6 +64,30 @@ public class HomeController {
         
         indicateur.setNbGenres(listeGenre.size());
         
+        // Listes des genres avec une hashmap
+    	final Map<String, Integer> tabListeGenre = new HashMap();
+    	//On parcours les livres et on récupère le genre de chacun
+    	for (int i = 0; i < entities.size(); i++){
+    		LivresEntity livre = entities.get(i);
+    		String genre =  livre.getGenre().toString();
+    		boolean existe = tabListeGenre.containsKey(genre);
+    		
+    		//Si c'est un nouveaux genre ont l'ajoute dans le tableau
+    		if(!existe) {
+    	    	tabListeGenre.put(genre, 1);
+    	    	
+    	    // Si le genre existe déjà dans le tableau ont ajoute +1
+    		}else{
+    	    	tabListeGenre.put(genre, tabListeGenre.get(genre) + 1);
+    	    }
+    	}
+
+    	
+    	ListGenre.setListeGenre(tabListeGenre);
+    	
+    	//set des différents livres, genres et indicateurs pour le home
+    	home.setLivres(LivreMapper.map(service.findAllLivres()));
+    	home.setGenres(tabListeGenre);
         home.setIndicateurs(indicateur);
         
         return home;
@@ -114,6 +144,6 @@ public class HomeController {
 	public List<AuteursDTO> findAllAuteurs(){
 		return AuteurMapper.map(service.findAllAuteurs());
 	}
-	
-    
+
+	        
 }
