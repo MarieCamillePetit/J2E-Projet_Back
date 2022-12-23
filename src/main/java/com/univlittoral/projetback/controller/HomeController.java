@@ -22,7 +22,7 @@ import com.univlittoral.projetback.dto.HomeDTO;
 import com.univlittoral.projetback.dto.IndicateursDTO;
 import com.univlittoral.projetback.dto.LivresDTO;
 import com.univlittoral.projetback.dto.LivresRequestDTO;
-import com.univlittoral.projetback.entity.AuteursEntity;
+import com.univlittoral.projetback.dto.PieChartDTO;
 import com.univlittoral.projetback.entity.LivresEntity;
 import com.univlittoral.projetback.enums.GenreEnum;
 import com.univlittoral.projetback.mapper.AuteurMapper;
@@ -46,10 +46,16 @@ public class HomeController {
         HomeDTO home = new HomeDTO();
         final GenreDTO ListGenre = new GenreDTO();
         final List<LivresEntity> entities = service.findAllLivres();
-        final int nbLivres = entities.size();
-        final ArrayList<String> genres = new ArrayList<String>();             
 
         List listeGenre = new ArrayList();
+        
+        PieChartDTO pieChart = new PieChartDTO();
+        
+      //Création de List qui contiennent les couleurs, labels, values
+    	List<String> colors = new ArrayList<String>(); 
+        List<String> labels = new ArrayList<String>(); 
+        List<Integer> values = new ArrayList<Integer>(); 
+        
         
         //Indicateurs
         IndicateursDTO indicateur = new IndicateursDTO();
@@ -75,7 +81,6 @@ public class HomeController {
     		//Si c'est un nouveaux genre ont l'ajoute dans le tableau
     		if(!existe) {
     	    	tabListeGenre.put(genre, 1);
-    	    	
     	    // Si le genre existe déjà dans le tableau ont ajoute +1
     		}else{
     	    	tabListeGenre.put(genre, tabListeGenre.get(genre) + 1);
@@ -85,10 +90,37 @@ public class HomeController {
     	
     	ListGenre.setListeGenre(tabListeGenre);
     	
+    	
+    	//PieChart
+        ArrayList<Integer> graphGenreNb = new ArrayList<Integer>();
+        ArrayList<String> graphLabels = new ArrayList<String>();
+
+        graphGenreNb = service.findNbGenre();
+        graphLabels = service.findGenre();
+        
+        for (int i = 0; i < graphLabels.size(); i++){
+        	  labels.add(graphLabels.get(i));
+        	  values.add(graphGenreNb.get(i));
+        	}
+    	
+        colors.add("#F299EC");
+        colors.add("#A75CF2");
+        colors.add("#E3D8F2");
+        colors.add("#05C7F2");
+        colors.add("#F2E205");
+
+        pieChart.setColors(colors);
+        pieChart.setLabels(labels);
+        pieChart.setValues(values);
+        
+        home.setDatasGraph(pieChart);
+    	
     	//set des différents livres, genres et indicateurs pour le home
     	home.setLivres(LivreMapper.map(service.findAllLivres()));
     	home.setGenres(tabListeGenre);
         home.setIndicateurs(indicateur);
+        
+        
         
         return home;
     }

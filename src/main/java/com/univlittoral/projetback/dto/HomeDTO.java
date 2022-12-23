@@ -8,7 +8,7 @@ public class HomeDTO {
 	private List<LivresDTO> livre;
 	private IndicateursDTO indicateurs;
     private Map<String,Integer> genres;
-	private PieChartDTO graphData;
+	private PieChartDTO datasGraph;
 		    
 	    
 	    public List<LivresDTO> getLivres() {
@@ -36,13 +36,15 @@ public class HomeDTO {
 		public void setGenres(Map<String, Integer> genres) {
 			this.genres = genres;
 		}
+		public PieChartDTO getDatasGraph() {
+			return datasGraph;
+		}
+		public void setDatasGraph(PieChartDTO datasGraph) {
+			this.datasGraph = datasGraph;
+		}
+
 		
-		public PieChartDTO getGraphData() {
-			return graphData;
-		}
-		public void setGraphData(PieChartDTO graphData) {
-			this.graphData = graphData;
-		}
+
 	    
 	    
 

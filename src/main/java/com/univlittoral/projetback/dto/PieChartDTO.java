@@ -4,20 +4,11 @@ import java.util.List;
 
 public class PieChartDTO {
 	
-	private List<Integer> values;
-	
 	private List<String> colors;
 	
 	private List<String> labels;
 
-	
-	public List<Integer> getValues() {
-		return values;
-	}
-
-	public void setValues(List<Integer> values) {
-		this.values = values;
-	}
+	private List<Integer> values;
 
 	public List<String> getColors() {
 		return colors;
@@ -34,7 +25,14 @@ public class PieChartDTO {
 	public void setLabels(List<String> labels) {
 		this.labels = labels;
 	}
-	
+
+	public List<Integer> getValues() {
+		return values;
+	}
+
+	public void setValues(List<Integer> values) {
+		this.values = values;
+	}	
 	
 	
 
